@@ -1,26 +1,17 @@
 package com.kemc.themoviedbapp
 
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import com.kemc.themoviedbapp.data.network.RetrofitClient
-import com.kemc.themoviedbapp.ui.theme.TheMovieDBAppTheme
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import androidx.activity.viewModels
+import androidx.compose.foundation.layout.*
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.collectAsState
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import com.kemc.themoviedbapp.screen.MoviesList
 import com.kemc.themoviedbapp.viewmodel.MoviesViewModel
 
@@ -33,19 +24,25 @@ class MainActivity : ComponentActivity() {
         setContent {
             MaterialTheme {
                 val moviesState = viewModel.movies.collectAsState()
-                val movies = moviesState.value
+                val isLoading = viewModel.isLoading.collectAsState()
 
-                MoviesList(
-                    movies = movies,
-                    onMovieClick = { movie ->
-
-                        Toast.makeText(this, movie.title, Toast.LENGTH_SHORT).show()
+                Box(modifier = Modifier.fillMaxSize()) {
+                    if (isLoading.value) {
+                        CircularProgressIndicator(
+                            modifier = Modifier
+                                .align(Alignment.Center)
+                                .size(48.dp)
+                        )
+                    } else {
+                        MoviesList(
+                            movies = moviesState.value,
+                            onMovieClick = { movie ->
+                                Toast.makeText(this@MainActivity, movie.title, Toast.LENGTH_SHORT).show()
+                            }
+                        )
                     }
-                )
+                }
             }
         }
     }
 }
-
-
-
