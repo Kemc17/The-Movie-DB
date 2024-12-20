@@ -9,6 +9,7 @@ android {
     compileSdk = 34
 
     defaultConfig {
+
         applicationId = "com.kemc.themoviedbapp"
         minSdk = 24
         targetSdk = 34
@@ -16,6 +17,12 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        buildConfigField(
+            "String",
+            "TMDB_BEARER_TOKEN",
+            "\"${project.properties["TMDB_BEARER_TOKEN"]}\""
+        )
     }
 
     buildTypes {
@@ -36,6 +43,7 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
 }
 
