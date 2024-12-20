@@ -1,64 +1,24 @@
-package com.kemc.themoviedbapp.ui.screen
+package com.kemc.themoviedbapp.screen
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.kemc.themoviedbapp.data.model.Movie
+import com.kemc.themoviedbapp.ui.screen.MovieItem
 
 @Composable
-fun MoviesList(movies: List<Movie>) {
-    var selectedMovie by remember { mutableStateOf<String?>(null) }
-    val snackbarHostState = remember { SnackbarHostState() }
-
-    Scaffold(
-        snackbarHost = { SnackbarHost(snackbarHostState) }
-    ) { padding ->
-        Box(modifier = Modifier.padding(padding)) {
-            LazyColumn(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(16.dp)
-            ) {
-                items(movies) { movie ->
-                    MovieItem(movie = movie) {
-                        selectedMovie = movie.title
-                    }
-                    Spacer(modifier = Modifier.height(8.dp))
-                }
-            }
-        }
-    }
-
-    LaunchedEffect(selectedMovie) {
-        selectedMovie?.let { movieTitle ->
-            snackbarHostState.showSnackbar(movieTitle)
-            selectedMovie = null
-        }
-    }
-}
-
-@Composable
-fun MovieItem(movie: Movie, onClick: () -> Unit) {
-    Column(
+fun MoviesList(movies: List<Movie>, onMovieClick: (Movie) -> Unit) {
+    LazyColumn(
         modifier = Modifier
-            .fillMaxWidth()
-            .clickable { onClick() }
+            .fillMaxSize()
+            .padding(16.dp)
     ) {
-        Text(
-            text = movie.title,
-            maxLines = 1,
-            modifier = Modifier.padding(8.dp)
-        )
-        Spacer(modifier = Modifier.height(4.dp))
-        Text(
-            text = movie.overview,
-            maxLines = 3,
-            modifier = Modifier.padding(start = 8.dp)
-        )
+        items(movies) { movie ->
+            MovieItem(movie = movie, onClick = { onMovieClick(movie) })
+            Spacer(modifier = Modifier.height(8.dp))
+        }
     }
 }

@@ -2,6 +2,7 @@ package com.kemc.themoviedbapp
 
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -14,13 +15,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.kemc.themoviedbapp.data.network.RetrofitClient
-import com.kemc.themoviedbapp.ui.screen.MoviesList
 import com.kemc.themoviedbapp.ui.theme.TheMovieDBAppTheme
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import androidx.activity.viewModels
 import androidx.compose.runtime.collectAsState
+import com.kemc.themoviedbapp.screen.MoviesList
 import com.kemc.themoviedbapp.viewmodel.MoviesViewModel
 
 class MainActivity : ComponentActivity() {
@@ -34,10 +35,17 @@ class MainActivity : ComponentActivity() {
                 val moviesState = viewModel.movies.collectAsState()
                 val movies = moviesState.value
 
-                MoviesList(movies = movies)
+                MoviesList(
+                    movies = movies,
+                    onMovieClick = { movie ->
+
+                        Toast.makeText(this, movie.title, Toast.LENGTH_SHORT).show()
+                    }
+                )
             }
         }
     }
 }
+
 
 
