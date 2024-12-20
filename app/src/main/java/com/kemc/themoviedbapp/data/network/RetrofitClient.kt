@@ -6,7 +6,6 @@ import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-
 object RetrofitClient{
     private const val BASE_URL = "https://api.themoviedb.org/" //Ruta base
 
