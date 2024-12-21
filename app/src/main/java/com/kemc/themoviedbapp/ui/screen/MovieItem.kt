@@ -22,6 +22,7 @@ import com.kemc.themoviedbapp.data.model.Movie
 @Composable
 fun MovieItem(movie: Movie, onClick: () -> Unit) {
     val imageUrl = "https://image.tmdb.org/t/p/w500${movie.posterPath}"
+
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -29,9 +30,13 @@ fun MovieItem(movie: Movie, onClick: () -> Unit) {
             .clickable { onClick() },
         shape = RoundedCornerShape(16.dp),
         elevation = CardDefaults.cardElevation(8.dp),
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
+        colors = CardDefaults.cardColors(containerColor = Color(0xFF000080))
     ) {
-        Box(modifier = Modifier.height(200.dp)) {
+        Box(
+            modifier = Modifier
+                .height(200.dp)
+                .background(Color(0x80000080))
+        ) {
             AsyncImage(
                 model = imageUrl,
                 contentDescription = "Poster de la película",
@@ -46,7 +51,7 @@ fun MovieItem(movie: Movie, onClick: () -> Unit) {
                         Brush.verticalGradient(
                             colors = listOf(
                                 Color.Transparent,
-                                MaterialTheme.colorScheme.primary.copy(alpha = 0.7f)
+                                Color.Black.copy(alpha = 0.7f)
                             ),
                             startY = 50f
                         )
@@ -60,7 +65,7 @@ fun MovieItem(movie: Movie, onClick: () -> Unit) {
                 Text(
                     text = movie.title,
                     style = MaterialTheme.typography.titleMedium,
-                    color = MaterialTheme.colorScheme.onPrimary,
+                    color = Color.White,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis
                 )
@@ -68,7 +73,7 @@ fun MovieItem(movie: Movie, onClick: () -> Unit) {
                 Text(
                     text = movie.overview,
                     style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onPrimary.copy(alpha = 0.8f),
+                    color = Color.White.copy(alpha = 0.8f),
                     maxLines = 3,
                     overflow = TextOverflow.Ellipsis,
                     modifier = Modifier.height(60.dp)
