@@ -1,13 +1,18 @@
 package com.kemc.themoviedbapp.ui.screen
 
-import android.util.Log
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.*
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -17,34 +22,45 @@ import com.kemc.themoviedbapp.data.model.Movie
 @Composable
 fun MovieItem(movie: Movie, onClick: () -> Unit) {
     val imageUrl = "https://image.tmdb.org/t/p/w500${movie.posterPath}"
-
     Card(
         modifier = Modifier
             .fillMaxWidth()
+            .padding(8.dp)
             .clickable { onClick() },
-        shape = RoundedCornerShape(8.dp),
-        elevation = CardDefaults.cardElevation(4.dp)
+        shape = RoundedCornerShape(16.dp),
+        elevation = CardDefaults.cardElevation(8.dp),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
     ) {
-        Row(
-            modifier = Modifier
-                .padding(8.dp)
-                .fillMaxWidth()
-        ) {
+        Box(modifier = Modifier.height(200.dp)) {
             AsyncImage(
                 model = imageUrl,
                 contentDescription = "Poster de la película",
-                modifier = Modifier
-                    .size(100.dp)
-                    .clip(RoundedCornerShape(8.dp)),
+                modifier = Modifier.fillMaxSize(),
                 contentScale = ContentScale.Crop
             )
-            Spacer(modifier = Modifier.width(8.dp))
+
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(
+                        Brush.verticalGradient(
+                            colors = listOf(
+                                Color.Transparent,
+                                MaterialTheme.colorScheme.primary.copy(alpha = 0.7f)
+                            ),
+                            startY = 50f
+                        )
+                    )
+            )
             Column(
-                modifier = Modifier.weight(1f)
+                modifier = Modifier
+                    .align(Alignment.BottomStart)
+                    .padding(12.dp)
             ) {
                 Text(
                     text = movie.title,
                     style = MaterialTheme.typography.titleMedium,
+                    color = MaterialTheme.colorScheme.onPrimary,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis
                 )
@@ -52,8 +68,10 @@ fun MovieItem(movie: Movie, onClick: () -> Unit) {
                 Text(
                     text = movie.overview,
                     style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onPrimary.copy(alpha = 0.8f),
                     maxLines = 3,
-                    overflow = TextOverflow.Ellipsis
+                    overflow = TextOverflow.Ellipsis,
+                    modifier = Modifier.height(60.dp)
                 )
             }
         }
