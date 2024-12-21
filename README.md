@@ -19,31 +19,27 @@ Una aplicación móvil para explorar una galería de películas populares utiliz
 
 ## Documentación de Tecnologías Utilizadas
 
-- **[Jetpack Compose](https://developer.android.com/develop/ui/compose/documentation?hl=es-419)**: Un moderno kit de herramientas para crear interfaces de usuario nativas en Android utilizando Kotlin de forma declarativa.
-  - Aprende los conceptos básicos, cómo funcionan los `Composable` y los principios de diseño declarativo.
+- **[Jetpack Compose](https://developer.android.com/develop/ui/compose/documentation?hl=es-419)**
 
-- **[Retrofit](https://square.github.io/retrofit/)**: Una librería cliente HTTP para Android y Java.
-  - Útil para realizar solicitudes a la API de The Movie DB, con soporte para conversiones automáticas de JSON mediante Gson.
+- **[Retrofit](https://square.github.io/retrofit/)**
 
-- **[Coil](https://coil-kt.github.io/coil/)**: Una librería ligera para la carga de imágenes en Android.
-  - Diseñada específicamente para Kotlin y Jetpack Compose, con excelente rendimiento y fácil integración.
+- **[Coil](https://coil-kt.github.io/coil/)**
 
-- **[Material Design 3](https://m3.material.io/)**: El lenguaje de diseño de Google para interfaces de usuario.
-  - Implementa componentes modernos y responsivos, asegurando una experiencia de usuario coherente y atractiva.
+- **[Material Design 3](https://m3.material.io/)**
 
 ### Configuración
 - Colocar la vista **Project** y crear un archivo nuevo llamado `gradle.properties` desde la raiz.
 - Agregar lo siguiente al archivo:
 
-org.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8
-android.useAndroidX=true
-kotlin.code.style=official
-android.nonTransitiveRClass=true
+- `org.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8`
+- `android.useAndroidX=true`
+- `kotlin.code.style=official`
+- `android.nonTransitiveRClass=true`
 
-TMDB_BEARER_TOKEN=API-KEY **Asegurarse que la API-KEY este en una sola línea**
+- `TMDB_BEARER_TOKEN=API-KEY` **Asegurarse que la API-KEY este en una sola línea**
 
 - Sync los archivos gradles
-- Limpiar el build y volverlo a contruir para terminar de sincronizar la variable **TMDB_BEARER_TOKEN** con su **API-KEY**
+- Limpiar el build y volverlo a contruir para terminar de sincronizar la variable `TMDB_BEARER_TOKEN` con su **API-KEY**
 
 
 
