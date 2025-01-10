@@ -9,6 +9,7 @@ lifecycleRuntimeKtx = "2.6.1"
 activityCompose = "1.8.0"
 composeBom = "2024.04.01"
 
+
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
@@ -31,7 +32,6 @@ retrofit-gson = "com.squareup.retrofit2:converter-gson:2.9.0"
 coil-compose = { group = "io.coil-kt", name = "coil-compose", version = "2.4.0" }
 
 kotlinx-coroutines-android = "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3"
-
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
