@@ -91,44 +91,56 @@ class MainActivity : ComponentActivity() {
                             }
                         }
 
-                        FloatingActionButton(
-                            onClick = {
-                                lifecycleScope.launch {
-                                    try {
-                                        val movieResponse = apiService.getPopularMovies(
-                                            language = "en-US",
-                                            sortBy = "popularity.desc",
-                                            includeAdult = false,
-                                            page = 1
-                                        )
+                        if (!isLoading) {
+                            FloatingActionButton(
+                                onClick = {
+                                    lifecycleScope.launch {
+                                        try {
+                                            val movieResponse = apiService.getPopularMovies(
+                                                language = "en-US",
+                                                sortBy = "popularity.desc",
+                                                includeAdult = false,
+                                                page = 1
+                                            )
 
-                                        val listaDePeliculas = movieResponse.results
-                                        val peliculasJson = Gson().toJson(listaDePeliculas)
+                                            val listaDePeliculas = movieResponse.results
+                                            val peliculasJson = Gson().toJson(listaDePeliculas)
 
-                                        val intent = Intent(
-                                            Intent.ACTION_VIEW,
-                                            Uri.parse("themoviedbapp://movies/list?data=${Uri.encode(peliculasJson)}")
-                                        ).apply {
-                                            `package` = "com.example.deeplink"
+                                            val intent = Intent(
+                                                Intent.ACTION_VIEW,
+                                                Uri.parse(
+                                                    "themoviedbapp://movies/list?data=${
+                                                        Uri.encode(
+                                                            peliculasJson
+                                                        )
+                                                    }"
+                                                )
+                                            ).apply {
+                                                `package` = "com.example.deeplink"
+                                            }
+
+                                            context.startActivity(intent)
+                                        } catch (e: Exception) {
+                                            e.printStackTrace()
+                                            Toast.makeText(
+                                                context,
+                                                "Error al obtener las películas",
+                                                Toast.LENGTH_SHORT
+                                            ).show()
                                         }
-
-                                        context.startActivity(intent)
-                                    } catch (e: Exception) {
-                                        e.printStackTrace()
-                                        Toast.makeText(context, "Error al obtener las películas", Toast.LENGTH_SHORT).show()
                                     }
-                                }
-                            },
-                            modifier = Modifier
-                                .align(Alignment.BottomEnd)
-                                .padding(end = 16.dp, bottom = 64.dp),
-                            containerColor = Color(0xFF000080)
-                        ) {
-                            Icon(
-                                imageVector = Icons.Default.PlayArrow,
-                                contentDescription = "Deeplink",
-                                tint = Color.White
-                            )
+                                },
+                                modifier = Modifier
+                                    .align(Alignment.BottomEnd)
+                                    .padding(end = 16.dp, bottom = 64.dp),
+                                containerColor = Color(0xFF000080)
+                            ) {
+                                Icon(
+                                    imageVector = Icons.Default.PlayArrow,
+                                    contentDescription = "Deeplink",
+                                    tint = Color.White
+                                )
+                            }
                         }
                     }
                 }
