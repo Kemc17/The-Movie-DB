@@ -7,6 +7,7 @@ import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.collectAsState
@@ -22,6 +23,11 @@ import com.kemc.themoviedbapp.screen.MoviesList
 import com.kemc.themoviedbapp.ui.components.CustomSnackbar
 import com.kemc.themoviedbapp.viewmodel.MoviesViewModel
 import kotlinx.coroutines.launch
+import androidx.compose.material3.Icon
+import androidx.compose.material.icons.Icons
+import androidx.compose.ui.graphics.Color
+import androidx.compose.material.icons.filled.ArrowForward
+import androidx.compose.material.icons.filled.PlayArrow
 
 class MainActivity : ComponentActivity() {
 
@@ -50,42 +56,45 @@ class MainActivity : ComponentActivity() {
                         )
                     }
                 ) { padding ->
-                    Column(
+                    Box(
                         modifier = Modifier
                             .fillMaxSize()
                             .padding(padding)
                     ) {
-                        // Estado de carga o lista de películas
-                        if (isLoading) {
-                            Box(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .weight(1f), // Llenar el espacio disponible
-                                contentAlignment = Alignment.Center
-                            ) {
-                                CircularProgressIndicator(
-                                    modifier = Modifier.size(64.dp)
+                        Column(
+                            modifier = Modifier.fillMaxSize()
+                        ) {
+                            // Estado de carga o lista de películas
+                            if (isLoading) {
+                                Box(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .weight(1f),
+                                    contentAlignment = Alignment.Center
+                                ) {
+                                    CircularProgressIndicator(
+                                        modifier = Modifier.size(64.dp)
+                                    )
+                                }
+                            } else {
+                                MoviesList(
+                                    movies = movies,
+                                    modifier = Modifier.weight(1f),
+                                    onMovieClick = { movie ->
+                                        coroutineScope.launch {
+                                            snackbarHostState.showSnackbar(
+                                                message = movie.title
+                                            )
+                                        }
+                                    }
                                 )
                             }
-                        } else {
-                            MoviesList(
-                                movies = movies,
-                                modifier = Modifier.weight(1f), // Llenar el espacio disponible
-                                onMovieClick = { movie ->
-                                    coroutineScope.launch {
-                                        snackbarHostState.showSnackbar(
-                                            message = movie.title
-                                        )
-                                    }
-                                }
-                            )
                         }
-                        // Botón de Deeplink
-                        Button(
+
+                        FloatingActionButton(
                             onClick = {
                                 lifecycleScope.launch {
                                     try {
-
                                         val movieResponse = apiService.getPopularMovies(
                                             language = "en-US",
                                             sortBy = "popularity.desc",
@@ -111,10 +120,15 @@ class MainActivity : ComponentActivity() {
                                 }
                             },
                             modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(16.dp)
+                                .align(Alignment.BottomEnd)
+                                .padding(end = 16.dp, bottom = 64.dp),
+                            containerColor = Color(0xFF000080)
                         ) {
-                            Text(text = "DEEPLINK")
+                            Icon(
+                                imageVector = Icons.Default.PlayArrow,
+                                contentDescription = "Deeplink",
+                                tint = Color.White
+                            )
                         }
                     }
                 }
